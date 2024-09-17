@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Interfaces.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
@@ -6,31 +8,50 @@ namespace Presentation.Controllers;
 [ApiController]
 public class AgendamentosController : ControllerBase
 {
+    private readonly IAgendamentoService _agendamentoService;
+    public AgendamentosController(IAgendamentoService agendamentoService)
+    {
+        _agendamentoService = agendamentoService;
+    }
 
     [HttpGet]
-    public IEnumerable<string> BuscarTodosAgendamentosAsync()
+    public async Task<IActionResult> BuscarTodosAgendamentosAsync()
     {
-        return new string[] { "value1", "value2" };
+        return Ok();
     }
 
     [HttpGet("{id}")]
-    public string Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        return "value";
+        var response = await _agendamentoService.BuscarAgendamentosPorMedicoResponsavelAsync(id)
+        if (!response.IsSuccess && response.ErrorMessage == "")
+        {
+            return UnprocessableEntity();
+        }
+        return Created();
     }
 
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] AgendamentoModel agendamento)
     {
+        var response = await _agendamentoService.AdicionarAgendamentoAsync(agendamento);
+        if (!response.IsSuccess && response.ErrorMessage == "")
+        {
+            return UnprocessableEntity();
+        }
+        return Created();
+
     }
 
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public async Task<IActionResult> Put(int id, [FromBody] string value)
     {
+        return Ok();
     }
 
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
+        return Ok();
     }
 }

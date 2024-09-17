@@ -1,14 +1,27 @@
 ﻿using Domain;
+using Domain.Interfaces.Repositorys;
 using Domain.Interfaces.Services;
 using Domain.Models;
 
 namespace Application.ServiceAgendamentos;
 internal class AgendamentosService : IAgendamentoService
 {
+    private readonly IAgendamentoRepository _repositoryAgendamento;
 
-    public Task<ValueResult<AgendamentoModel>> AdicionarAgendamentoAsync(AgendamentoModel paciente)
+    public AgendamentosService(IAgendamentoRepository repositoryAgendamento)
     {
-        throw new NotImplementedException();
+        _repositoryAgendamento = repositoryAgendamento;
+    }
+
+    public async Task<ValueResult> AdicionarAgendamentoAsync(AgendamentoModel agendamento)
+    {
+        var response = await _repositoryAgendamento.AdicionarAgendamentoAsync(agendamento);
+
+        if (!response.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao Cadastrar Agendamento");
+        }
+        return ValueResult.Success();
     }
 
     public Task<ValueResult> ApagarAgendamentoAsync(long id)
