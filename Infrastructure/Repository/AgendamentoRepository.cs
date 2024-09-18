@@ -70,17 +70,17 @@ public class AgendamentoRepository(AgendamentoContext context) : IAgendamentoRep
         }
     }
 
-    public async Task<ValueResult> AdicionarAgendamentoAsync(AgendamentoModel agendamento)
+    public async Task<ValueResult<AgendamentoModel>> AdicionarAgendamentoAsync(AgendamentoModel agendamento)
     {
         try
         {
             await _context.Agendamentos.AddAsync(agendamento);
             await _context.SaveChangesAsync();
-            return ValueResult.Success();
+            return ValueResult<AgendamentoModel>.Success(agendamento);
         }
         catch
         {
-            return ValueResult.Failure("Falha ao acessar base de dados");
+            return ValueResult<AgendamentoModel>.Failure("Falha ao acessar base de dados");
         }
     }
 

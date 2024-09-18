@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Controllers;
 
@@ -23,30 +24,40 @@ public class AgendamentosController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var response = await _agendamentoService.BuscarAgendamentosPorMedicoResponsavelAsync(id)
-        if (!response.IsSuccess && response.ErrorMessage == "")
+        var response = await _agendamentoService.BuscarAgendamentosPorMedicoResponsavelAsync(id);
+        if (!response.IsSuccess && response.ErrorMessage == "UmErroAqui")
         {
             return UnprocessableEntity();
         }
-        return Created();
+        else if (!response.IsSuccess && string.IsNullOrWhiteSpace(response.ErrorMessage))
+        {
+            return NoContent();
+        }
+
+        return Ok();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] AgendamentoModel agendamento)
+    [ProducesResponseType(typeof(AgendamentoModel), 201)]
+    public async Task<IActionResult> CadastrarAgendamento([FromBody] AgendamentoModel agendamento)
     {
         var response = await _agendamentoService.AdicionarAgendamentoAsync(agendamento);
-        if (!response.IsSuccess && response.ErrorMessage == "")
+        if (!response.IsSuccess)
         {
-            return UnprocessableEntity();
+            return BadRequest();
         }
-        return Created();
-
+        return CreatedAtAction(nameof(CadastrarAgendamento),new { id = response.Value.Id}, response.Value);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] string value)
+    [HttpPut("AtualizarData/{id}")]
+    public async Task<IActionResult> AtualizarData([Required][FromQuery] string data, long id)
     {
-        return Ok();
+        var response = await _agendamentoService.AtualizarDataAgendamentoAsync(data, id);
+        if (!response.IsSuccess)
+        {
+            return BadRequest();
+        }
+        return Ok(response.Value);
     }
 
     [HttpDelete("{id}")]

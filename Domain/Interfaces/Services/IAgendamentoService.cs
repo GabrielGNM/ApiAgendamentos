@@ -6,7 +6,7 @@ public interface IAgendamentoService
 {
     Task<ValueResult<List<AgendamentoModel>>> BuscarTodosAgendamentosAsync();
     Task<ValueResult<AgendamentoModel>> BuscarAgendamentosPorMedicoResponsavelAsync(long id);
-    Task<ValueResult> AdicionarAgendamentoAsync(AgendamentoModel paciente);
-    Task<ValueResult<AgendamentoModel>> AtualizarAgendamentoAsync(AgendamentoModel paciente);
+    Task<ValueResult<AgendamentoModel>> AdicionarAgendamentoAsync(AgendamentoModel paciente);
+    Task<ValueResult<AgendamentoModel>> AtualizarDataAgendamentoAsync(string data, long id);
     Task<ValueResult> ApagarAgendamentoAsync(long id);
 }
