@@ -26,9 +26,9 @@ public class UsuarioService : IUsuarioService
         return ValueResult<UsuarioModel>.Success(response.Value);
     }
 
-    public Task<ValueResult<List<UsuarioModel>>> BuscarTodosUsuariosAsync()
+    public async Task<ValueResult<List<UsuarioModel>>> BuscarTodosUsuariosAsync()
     {
-        var response = await _repositoryUsuario.BuscarTodosUsuariosAsync(usuario);
+        var response = await _repositoryUsuario.BuscarTodosUsuariosAsync();
 
         if (!response.IsSuccess)
         {
