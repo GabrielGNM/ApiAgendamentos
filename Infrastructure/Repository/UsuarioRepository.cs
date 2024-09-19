@@ -71,19 +71,19 @@ public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
         }
     }
 
-    //public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioModel Usuario)
-    //{
-    //    try
-    //    {
-    //        await _context.Usuarios.AddAsync(Usuario);
-    //        await _context.SaveChangesAsync();
-    //        return ValueResult<UsuarioModel>.Success(Usuario);
-    //    }
-    //    catch
-    //    {
-    //        return ValueResult<UsuarioModel>.Failure("Falha ao acessar base de dados");
-    //    }
-    //}
+    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioModel Usuario)
+    {
+        try
+        {
+            await _context.Usuarios.AddAsync(Usuario);
+            await _context.SaveChangesAsync();
+            return ValueResult<UsuarioModel>.Success(Usuario);
+        }
+        catch
+        {
+            return ValueResult<UsuarioModel>.Failure("Falha ao acessar base de dados");
+        }
+    }
 
     //public async Task<ValueResult> AtualizarUsuarioAsync(UsuarioModel Usuario)
     //{
