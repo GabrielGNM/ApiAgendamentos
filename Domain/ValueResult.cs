@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using Domain.Models;
+
+namespace Domain
 {
     public readonly struct ValueResult
     {
@@ -47,6 +49,11 @@
         public static ValueResult<T> Failure(T? value, string? errorMessage)
         {
             return new ValueResult<T>(value, false, errorMessage);
+        }
+
+        public static ValueResult<UsuarioModel> Success(AgendamentoModel? value)
+        {
+            throw new NotImplementedException();
         }
     }
 }
