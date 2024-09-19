@@ -85,6 +85,11 @@ public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
         }
     }
 
+    public Task<ValueResult<AgendamentoModel>> AdicionarAgendamentoAsync(AgendamentoModel agendamento)
+    {
+        throw new NotImplementedException();
+    }
+
     //public async Task<ValueResult> AtualizarUsuarioAsync(UsuarioModel Usuario)
     //{
     //    try
