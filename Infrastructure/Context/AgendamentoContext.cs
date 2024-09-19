@@ -9,6 +9,8 @@ public class AgendamentoContext : DbContext
     private readonly string _connectionString;
     public DbSet<AgendamentoModel> Agendamentos { get; set; }
 
+    public DbSet<UsuarioModel> Usuarios { get; set; }
+
     public AgendamentoContext(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("Agendamentos");
