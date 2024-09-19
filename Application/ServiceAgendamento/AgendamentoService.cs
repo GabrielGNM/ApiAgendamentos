@@ -24,8 +24,29 @@ public class AgendamentoService : IAgendamentoService
         return ValueResult<AgendamentoModel>.Success(response.Value);
     }
 
-    public Task<ValueResult> ApagarAgendamentoAsync(long id)
+    public async Task<ValueResult> ApagarAgendamentoAsync(long id)
     {
+
+        var responseObjetoExistente = await _repositoryAgendamento.BuscarAgendamentoPorIdAsync(id);
+
+        if (!responseObjetoExistente.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao acessar Banco de Dados");
+        }
+
+        if (responseObjetoExistente.Value == null)
+        {
+            return ValueResult.Failure("Id Inexistente");
+        }
+
+        var responseApagarAgendamento = await _repositoryAgendamento.ApagarAgendamentoAsync(responseObjetoExistente.Value);
+        if (!responseApagarAgendamento.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao acessar Banco de Dados ");
+        }
+
+        return ValueResult.Success();
+    
         throw new NotImplementedException();
     }
 
