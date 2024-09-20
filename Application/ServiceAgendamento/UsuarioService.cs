@@ -38,10 +38,7 @@ public class UsuarioService : IUsuarioService
     }
 }
 /*
-    public Task<ValueResult> ApagarAgendamentoAsync(long id)
-    {
-        throw new NotImplementedException();
-    }
+
 
     public async Task<ValueResult<AgendamentoModel>> AtualizarDataAgendamentoAsync(string data, long id)
     {
@@ -75,15 +72,7 @@ public class UsuarioService : IUsuarioService
         return ValueResult<AgendamentoModel>.Success(valorAtualizar);
     }
 
-    public Task<ValueResult<AgendamentoModel>> BuscarAgendamentosPorMedicoResponsavelAsync(long id)
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<ValueResult<List<AgendamentoModel>>> BuscarTodosAgendamentosAsync()
-    {
-        throw new NotImplementedException();
-    }
 
 */
 

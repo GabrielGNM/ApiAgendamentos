@@ -85,36 +85,32 @@ public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
         }
     }
 
-    public Task<ValueResult<AgendamentoModel>> AdicionarAgendamentoAsync(AgendamentoModel agendamento)
+
+    public async Task<ValueResult> AtualizarUsuarioAsync(UsuarioModel Usuario)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _context.Usuarios.Update(Usuario);
+            await _context.SaveChangesAsync();
+            return ValueResult.Success();
+        }
+        catch
+        {
+            return ValueResult.Failure("Falha ao acessar base de dados");
+        }
     }
 
-    //public async Task<ValueResult> AtualizarUsuarioAsync(UsuarioModel Usuario)
-    //{
-    //    try
-    //    {
-    //        _context.Usuarios.Update(Usuario);
-    //        await _context.SaveChangesAsync();
-    //        return ValueResult.Success();
-    //    }
-    //    catch
-    //    {
-    //        return ValueResult.Failure("Falha ao acessar base de dados");
-    //    }
-    //}
-
-    //public async Task<ValueResult> ApagarUsuarioAsync(UsuarioModel Usuario)
-    //{
-    //    try
-    //    {
-    //        _context.Usuarios.Remove(Usuario);
-    //        await _context.SaveChangesAsync();
-    //        return ValueResult.Success();
-    //    }
-    //    catch
-    //    {
-    //        return ValueResult.Failure("Falha ao acessar base de dados");
-    //    }
-    //}
+    public async Task<ValueResult> ApagarUsuarioAsync(UsuarioModel Usuario)
+    {
+        try
+        {
+            _context.Usuarios.Remove(Usuario);
+            await _context.SaveChangesAsync();
+            return ValueResult.Success();
+        }
+        catch
+        {
+            return ValueResult.Failure("Falha ao acessar base de dados");
+        }
+    }
 }

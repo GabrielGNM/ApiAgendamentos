@@ -10,6 +10,6 @@ public interface IUsuarioRepository
     Task<ValueResult<UsuarioModel>> BuscarUsuarioPorIdAsync(long id);
     Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioModel Usuario);
 
-    //Task<ValueResult> AtualizarAgendamentoAsync(AgendamentoModel agendamento);
-    //Task<ValueResult> ApagarAgendamentoAsync(AgendamentoModel agendamento);
+    Task<ValueResult> AtualizarUsuarioAsync(UsuarioModel Usuario);
+    Task<ValueResult> ApagarUsuarioAsync(UsuarioModel Usuario);
 }
