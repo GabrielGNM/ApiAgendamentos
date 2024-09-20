@@ -35,7 +35,7 @@ public sealed record UsuarioModel
     [JsonPropertyName("perfil")]
     public Perfil Perfil { get; set; }
 
-    public ICollection<AgendamentoModel> AgendamentoModel { get; set; }
+    public ICollection<AgendamentoModel>? AgendamentoModel { get; set; }
 
 }
 
