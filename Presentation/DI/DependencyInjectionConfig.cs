@@ -11,9 +11,12 @@ public static class DependencyInjectionConfig
     {
         // Registro de Serviços
         services.AddScoped<IAgendamentoService, AgendamentoService>();
+        services.AddScoped<IUsuarioService, UsuarioService>();
 
         // Registro de Repositórios
         services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
         services.AddDbContext<AgendamentoContext>();
 
         return services;

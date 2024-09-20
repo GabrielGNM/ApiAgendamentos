@@ -9,7 +9,7 @@ namespace Infrastructure.Repository;
 public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
 {
     private readonly AgendamentoContext _context = context;
-
+    
     public async Task<ValueResult<List<UsuarioModel>>> BuscarTodosUsuariosAsync()
     {
         try

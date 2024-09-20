@@ -51,9 +51,11 @@ namespace Domain
             return new ValueResult<T>(value, false, errorMessage);
         }
 
+        /*
         public static ValueResult<UsuarioModel> Success(AgendamentoModel? value)
         {
             throw new NotImplementedException();
         }
+        */
     }
 }
