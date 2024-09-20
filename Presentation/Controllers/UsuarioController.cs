@@ -1,14 +1,20 @@
-﻿
-
-using Application.ServiceAgendamento;
+﻿using Application.ServiceAgendamento;
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Infrastructure.Migrations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
+using System.Text;
 
 namespace Presentation.Controllers;
 
+[Authorize(Roles = "Administrador")]
 [Route("[controller]")]
 [ApiController]
 public class UsuarioController : ControllerBase
@@ -33,6 +39,7 @@ public class UsuarioController : ControllerBase
         return Ok(response.Value);
    }
 
+    [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(UsuarioDto), 201)]
     public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioDto usuario)
@@ -104,6 +111,26 @@ public class UsuarioController : ControllerBase
         return NoContent();
     }
 
-   
+
+    [AllowAnonymous]
+    [HttpPost("authenticate")]
+    public async Task<IActionResult> Authenticate(AuthenticateDto credenciais)
+    {
+        var response = await _usuarioService.AutenticarUsuarioAsync(credenciais);
+
+        if (!response.IsSuccess)
+        {
+            return Unauthorized();
+        }    
+        
+        var jwt = _usuarioService.GenerateJwtToken(response.Value);
+
+        return Ok(new { jwtToken = jwt });
+    }
+
+
+    
+
+
 
 }

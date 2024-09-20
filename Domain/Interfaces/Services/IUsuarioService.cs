@@ -9,4 +9,6 @@ public interface IUsuarioService
     Task<ValueResult> AtualizarUsuarioAsync(long id, UsuarioDto usuario);
     Task<ValueResult<UsuarioModel>> BuscarUsuarioPorIdAsync(long id);
     Task<ValueResult> ApagarUsuarioAsync(long id);
+    Task<ValueResult<UsuarioModel>> AutenticarUsuarioAsync(AuthenticateDto credenciais);
+    string GenerateJwtToken(UsuarioModel credenciais);
 }
