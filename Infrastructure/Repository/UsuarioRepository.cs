@@ -98,6 +98,7 @@ public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
 
     public async Task<ValueResult> AtualizarUsuarioAsync(UsuarioModel Usuario)
     {
+
         try
         {
             _context.Usuarios.Update(Usuario);

@@ -67,9 +67,12 @@ public class UsuarioController : ControllerBase
 
 
    [HttpPut("{id}")]
-   public async Task<IActionResult> AtualizarUsuario(long id)
+   public async Task<IActionResult> AtualizarUsuario(long id, UsuarioDto usuario)
    {
-       var responseModel = await _usuarioService.BuscarUsuarioPorIdAsync(id);
+       
+
+        var responseModel = await _usuarioService.BuscarUsuarioPorIdAsync(id);
+
         if (!responseModel.IsSuccess && responseModel.ErrorMessage == "UmErroAqui")
         {
             return UnprocessableEntity();
@@ -79,7 +82,7 @@ public class UsuarioController : ControllerBase
             return NoContent();
         }
 
-        var response = await _usuarioService.AtualizarUsuarioAsync(responseModel.Value.Id);
+        var response = await _usuarioService.AtualizarUsuarioAsync(id, usuario);
         if (!response.IsSuccess)
         {
             return BadRequest();

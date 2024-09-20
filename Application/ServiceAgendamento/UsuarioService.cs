@@ -1,4 +1,5 @@
-﻿using Azure;
+﻿using BCrypt.Net;
+using Azure;
 using Domain;
 using Domain.Interfaces.Repositorys;
 using Domain.Interfaces.Services;
@@ -49,16 +50,20 @@ public class UsuarioService : IUsuarioService
         return ValueResult<UsuarioModel>.Success(response.Value);
     }
 
-    public async Task<ValueResult> AtualizarUsuarioAsync(long id)
+    public async Task<ValueResult> AtualizarUsuarioAsync(long id, UsuarioDto usuario)
     {
-     
-        /*
         var responseModel = await _repositoryUsuario.BuscarUsuarioPorIdAsync(id);
-
-        if (!responseModel.IsSuccess)
+        if (!responseModel.IsSuccess || responseModel.Value == null)
         {
-            return ValueResult.Failure("Falha ao Atualizar Usuário");
+            return ValueResult.Failure("Falha ao Carregar Usuário");
         }
+
+
+        responseModel.Value.NomeUsuario = usuario.NomeUsuario;
+        responseModel.Value.Password = BCrypt.Net.BCrypt.HashPassword(usuario.Password);
+        responseModel.Value.Email = usuario.Email;
+        responseModel.Value.Telefone = usuario.Telefone;
+        responseModel.Value.Tipo = usuario.Tipo;
 
 
         var response = await _repositoryUsuario.AtualizarUsuarioAsync(responseModel.Value);
@@ -67,23 +72,31 @@ public class UsuarioService : IUsuarioService
         {
             return ValueResult.Failure("Falha ao Atualizar Usuário");
         }
-        */
+        
         return ValueResult.Success();
     }
 
     public async Task<ValueResult> ApagarUsuarioAsync(long id)
     {
-        var response = await _repositoryUsuario.BuscarUsuarioPorIdAsync(id);
+        var responseModel = await _repositoryUsuario.BuscarUsuarioPorIdAsync(id);
 
-        if (!response.IsSuccess)
+        if (!responseModel.IsSuccess || responseModel.Value == null)
         {
-            return ValueResult.Failure("Falha ao Carregar Usuário");
+            return ValueResult.Failure("Falha ao buscar Usuário");
         }
+
+        var response = await _repositoryUsuario.ApagarUsuarioAsync(responseModel.Value);
+
+        if (!responseModel.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao apagar Usuário");
+        }
+
         return ValueResult.Success();
     }
 
 
-
+    
 }
 
 
