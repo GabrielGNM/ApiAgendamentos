@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Azure;
+using Domain;
 using Domain.Interfaces.Repositorys;
 using Domain.Interfaces.Services;
 using Domain.Models;
@@ -24,9 +25,27 @@ public class AgendamentoService : IAgendamentoService
         return ValueResult<AgendamentoModel>.Success(response.Value);
     }
 
-    public Task<ValueResult> ApagarAgendamentoAsync(long id)
+
+
+    public async Task<ValueResult> ApagarAgendamentoAsync(long id)
     {
-        throw new NotImplementedException();
+        var responseObjetoExistente = await _repositoryAgendamento.BuscarAgendamentoPorIdAsync(id);
+        if (!responseObjetoExistente.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao acessar Banco de Dados");
+        }
+        if (responseObjetoExistente.Value == null)
+        {
+            return ValueResult.Failure("Id Inexistente");
+        }
+        var responseApagarAgendamento = await _repositoryAgendamento.ApagarAgendamentoAsync(responseObjetoExistente.Value);
+        if (!responseApagarAgendamento.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao acessar Banco de Dados ");
+        }
+
+        return ValueResult.Success();
+
     }
 
     public async Task<ValueResult<AgendamentoModel>> AtualizarDataAgendamentoAsync(string data, long id)
@@ -66,8 +85,19 @@ public class AgendamentoService : IAgendamentoService
         throw new NotImplementedException();
     }
 
-    public Task<ValueResult<List<AgendamentoModel>>> BuscarTodosAgendamentosAsync()
+    public async Task<ValueResult<List<AgendamentoModel>>> BuscarTodosAgendamentosAsync()
     {
+        var responseBuscarTodosAgendamento = await _repositoryAgendamento.BuscarTodosAgendamentosAsync();
+
+        if (!responseBuscarTodosAgendamento.IsSuccess)
+        {
+            return ValueResult<List<AgendamentoModel>>.Failure("Falha ao carregar agendamento");
+        }
+
+        return ValueResult<List<AgendamentoModel>>.Success(responseBuscarTodosAgendamento.Value);
+
         throw new NotImplementedException();
     }
 }
+
+
