@@ -34,23 +34,23 @@ public class UsuarioController : ControllerBase
    }
 
     [HttpPost]
-    [ProducesResponseType(typeof(UsuarioModel), 201)]
-    public async Task<IActionResult> CadastrarUsuario([FromBody] UsuarioModel agendamento)
-    {
-        var response = await _usuarioService.AdicionarUsuarioAsync(agendamento);
+    [ProducesResponseType(typeof(UsuarioDto), 201)]
+    public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioDto usuario)
+    {       
+        var response = await _usuarioService.AdicionarUsuarioAsync(usuario);
         if (!response.IsSuccess)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(CadastrarUsuario), new { id = response.Value.Id }, response.Value);
+        return CreatedAtAction(nameof(AdicionarUsuario), new { id = response.Value.Id }, response.Value);
     }
 
-    /*
+  
 
    [HttpGet("{id}")]
-   public async Task<IActionResult> Get(int id)
+   public async Task<IActionResult> BuscarUsuarioPorId(int id)
    {
-       var response = await _agendamentoService.BuscarAgendamentosPorMedicoResponsavelAsync(id);
+       var response = await _usuarioService.BuscarUsuarioPorIdAsync(id);
        if (!response.IsSuccess && response.ErrorMessage == "UmErroAqui")
        {
            return UnprocessableEntity();
@@ -60,30 +60,47 @@ public class UsuarioController : ControllerBase
            return NoContent();
        }
 
-       return Ok();
+       return Ok(response.Value);
    }
 
  
 
 
-   [HttpPut("AtualizarData/{id}")]
-   public async Task<IActionResult> AtualizarData([Required][FromQuery] string data, long id)
+   [HttpPut("{id}")]
+   public async Task<IActionResult> AtualizarUsuario(long id)
    {
-       var response = await _agendamentoService.AtualizarDataAgendamentoAsync(data, id);
-       if (!response.IsSuccess)
-       {
-           return BadRequest();
-       }
-       return Ok(response.Value);
+       var responseModel = await _usuarioService.BuscarUsuarioPorIdAsync(id);
+        if (!responseModel.IsSuccess && responseModel.ErrorMessage == "UmErroAqui")
+        {
+            return UnprocessableEntity();
+        }
+        else if (!responseModel.IsSuccess && string.IsNullOrWhiteSpace(responseModel.ErrorMessage))
+        {
+            return NoContent();
+        }
+
+        var response = await _usuarioService.AtualizarUsuarioAsync(responseModel.Value.Id);
+        if (!response.IsSuccess)
+        {
+            return BadRequest();
+        }
+
+        return Ok(response);
    }
+
+
 
    [HttpDelete("{id}")]
    public async Task<IActionResult> Delete(int id)
    {
-       return Ok();
-   }
+        var response = await _usuarioService.ApagarUsuarioAsync(id);
+        if (!response.IsSuccess)
+        {
+            return BadRequest();
+        }
+        return NoContent();
+    }
 
-    */
-
+   
 
 }

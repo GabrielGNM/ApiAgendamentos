@@ -15,13 +15,13 @@ public class UsuarioService : IUsuarioService
         _repositoryUsuario = repositoryUsuario;
     }
     
-    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioModel usuario)
+    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioDto usuario)
     {
         var response = await _repositoryUsuario.AdicionarUsuarioAsync(usuario);
 
         if (!response.IsSuccess)
         {
-            return ValueResult<UsuarioModel>.Failure("Falha ao Cadastrar Usuário");
+            return ValueResult<UsuarioModel>.Failure("Falha ao Adicionar Usuário");
         }
         return ValueResult<UsuarioModel>.Success(response.Value);
     }
@@ -32,47 +32,58 @@ public class UsuarioService : IUsuarioService
 
         if (!response.IsSuccess)
         {
-            return ValueResult<List<UsuarioModel>>.Failure("Falha ao Carregar Usuário");
+            return ValueResult<List<UsuarioModel>>.Failure("Falha ao Carregar Usuários");
         }
         return ValueResult<List<UsuarioModel>>.Success(response.Value);
     }
-}
-/*
 
 
-    public async Task<ValueResult<AgendamentoModel>> AtualizarDataAgendamentoAsync(string data, long id)
+    public async Task<ValueResult<UsuarioModel>> BuscarUsuarioPorIdAsync(long id)
     {
-        var responseObjetoExistente = await _repositoryAgendamento.BuscarAgendamentoPorIdAsync(id);
+        var response = await _repositoryUsuario.BuscarUsuarioPorIdAsync(id);
 
-        if (!responseObjetoExistente.IsSuccess)
+        if (!response.IsSuccess)
         {
-            return ValueResult<AgendamentoModel>.Failure("Falha ao acessar Banco de Dados");
+            return ValueResult<UsuarioModel>.Failure("Falha ao Carregar Usuário");
         }
-        if (responseObjetoExistente.Value == null)
+        return ValueResult<UsuarioModel>.Success(response.Value);
+    }
+
+    public async Task<ValueResult> AtualizarUsuarioAsync(long id)
+    {
+     
+        /*
+        var responseModel = await _repositoryUsuario.BuscarUsuarioPorIdAsync(id);
+
+        if (!responseModel.IsSuccess)
         {
-            return ValueResult<AgendamentoModel>.Failure("Id Inexistente");
-        }
-
-        var valorAtualizar = responseObjetoExistente.Value;
-
-        if (!DateTime.TryParse(data, out DateTime dataAtendimentoFormatada))
-        {
-            return ValueResult<AgendamentoModel>.Failure("Data Incorreta");
-        }
-
-        valorAtualizar.DataAtendimento = dataAtendimentoFormatada;
-
-        var responseAtualizar = await _repositoryAgendamento.AtualizarAgendamentoAsync(valorAtualizar);
-
-        if (!responseAtualizar.IsSuccess)
-        {
-            return ValueResult<AgendamentoModel>.Failure(responseAtualizar.ErrorMessage);
+            return ValueResult.Failure("Falha ao Atualizar Usuário");
         }
 
-        return ValueResult<AgendamentoModel>.Success(valorAtualizar);
+
+        var response = await _repositoryUsuario.AtualizarUsuarioAsync(responseModel.Value);
+
+        if (!response.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao Atualizar Usuário");
+        }
+        */
+        return ValueResult.Success();
+    }
+
+    public async Task<ValueResult> ApagarUsuarioAsync(long id)
+    {
+        var response = await _repositoryUsuario.BuscarUsuarioPorIdAsync(id);
+
+        if (!response.IsSuccess)
+        {
+            return ValueResult.Failure("Falha ao Carregar Usuário");
+        }
+        return ValueResult.Success();
     }
 
 
 
-*/
+}
+
 

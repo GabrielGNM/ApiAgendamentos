@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using BCrypt.Net;
+using Domain;
 using Domain.Interfaces.Repositorys;
 using Domain.Models;
 using Infrastructure.Context;
@@ -71,13 +72,22 @@ public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
         }
     }
 
-    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioModel Usuario)
+    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioDto Usuario)
     {
+        UsuarioModel novoUsuario = new UsuarioModel()
+        {
+            NomeUsuario = Usuario.NomeUsuario,
+            Password = BCrypt.Net.BCrypt.HashPassword(Usuario.Password),
+            Email = Usuario.Email,
+            Telefone = Usuario.Telefone,
+            Tipo = Usuario.Tipo
+        };
+
         try
         {
-            await _context.Usuarios.AddAsync(Usuario);
+            await _context.Usuarios.AddAsync(novoUsuario);
             await _context.SaveChangesAsync();
-            return ValueResult<UsuarioModel>.Success(Usuario);
+            return ValueResult<UsuarioModel>.Success(novoUsuario);
         }
         catch
         {
