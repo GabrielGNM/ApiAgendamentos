@@ -25,7 +25,12 @@ public class UsuarioController : ControllerBase
    [HttpGet]
    public async Task<IActionResult> BuscarTodosUsuariosAsync()
    {
-       return Ok();
+        var response = await _usuarioService.BuscarTodosUsuariosAsync();
+        if (!response.IsSuccess)
+        {
+            return BadRequest();
+        }    
+        return Ok(response.Value);
    }
 
     [HttpPost]
