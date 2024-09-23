@@ -33,6 +33,21 @@ public class UsuarioController : ControllerBase
         return Ok(response.Value);
    }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> BuscarUsuarioPorIdAsync(long id)
+    {
+        var response = await _usuarioService.BuscarUsuarioPorIdAsync(id);
+
+        if (!response.IsSuccess)
+        {
+            return NotFound("Usuário não encontrado.");
+        }
+
+        return Ok(response.Value);
+    }
+
+
+
     [HttpPost]
     [ProducesResponseType(typeof(UsuarioModel), 201)]
     public async Task<IActionResult> CadastrarUsuario([FromBody] UsuarioModel agendamento)
@@ -45,45 +60,98 @@ public class UsuarioController : ControllerBase
         return CreatedAtAction(nameof(CadastrarUsuario), new { id = response.Value.Id }, response.Value);
     }
 
-    /*
 
-   [HttpGet("{id}")]
-   public async Task<IActionResult> Get(int id)
-   {
-       var response = await _agendamentoService.BuscarAgendamentosPorMedicoResponsavelAsync(id);
-       if (!response.IsSuccess && response.ErrorMessage == "UmErroAqui")
-       {
-           return UnprocessableEntity();
-       }
-       else if (!response.IsSuccess && string.IsNullOrWhiteSpace(response.ErrorMessage))
-       {
-           return NoContent();
-       }
+    [HttpGet("BuscarPorEmailPaciente/{email}")]
+    [ProducesResponseType(typeof(List<UsuarioModel>), 201)]
 
-       return Ok();
-   }
+    public async Task<IActionResult> BuscarTodosUsuariosPorEmailPacienteAsync(string email)
+    {
 
- 
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return BadRequest("Email não pode ser nulo ou vazio.");
+        }
 
 
-   [HttpPut("AtualizarData/{id}")]
-   public async Task<IActionResult> AtualizarData([Required][FromQuery] string data, long id)
-   {
-       var response = await _agendamentoService.AtualizarDataAgendamentoAsync(data, id);
-       if (!response.IsSuccess)
-       {
-           return BadRequest();
-       }
-       return Ok(response.Value);
-   }
+        var response = await _usuarioService.BuscarTodosUsuariosPorEmailPacienteAsync(email);
 
-   [HttpDelete("{id}")]
-   public async Task<IActionResult> Delete(int id)
-   {
-       return Ok();
-   }
 
-    */
+        if (!response.IsSuccess)
+        {
+            return NotFound("Nenhum usuário encontrado com o email fornecido.");
+        }
+
+        return Ok(response.Value);
+    }
+
+
+    [HttpGet("BuscarPorMedicoResponsavel/{emailMedico}")]
+    [ProducesResponseType(typeof(List<UsuarioModel>), 201)] 
+
+    public async Task<IActionResult> BuscarUsuariosPorMedicoResponsavelAsync(string emailMedico)
+    {
+        if (string.IsNullOrWhiteSpace(emailMedico))
+        {
+            return BadRequest("Email do médico não pode ser nulo ou vazio.");
+        }
+
+        var response = await _usuarioService.BuscarUsuariosPorMedicoResponsavelAsync(emailMedico);
+        if (!response.IsSuccess)
+        {
+            return NotFound("Nenhum usuário encontrado para o médico informado.");
+        }
+
+        return Ok(response.Value);
+    }
+
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(204)] 
+    public async Task<IActionResult> ApagarUsuarioAsync(int id)
+    {
+        if (id <= 0)
+        {
+            return BadRequest("ID do usuário deve ser maior que zero.");
+        }
+
+        var response = await _usuarioService.ApagarUsuarioAsync(id);
+        if (!response.IsSuccess)
+        {
+            return NotFound("Usuário não encontrado.");
+        }
+
+        return NoContent(); 
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(UsuarioModel), 200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)] 
+    public async Task<IActionResult> AtualizarUsuarioAsync(int id, [FromBody] UsuarioModel usuario)
+    {
+        if (id <= 0) 
+        {
+            return BadRequest("ID do usuário deve ser maior que zero.");
+        }
+
+        if (usuario == null)
+        {
+            return BadRequest("Dados do usuário não podem ser nulos.");
+        }
+
+        if (usuario.Id != id)
+        {
+            return BadRequest("O ID do usuário não corresponde ao ID fornecido na URL.");
+        }
+
+        var response = await _usuarioService.AtualizarUsuarioAsync(id, usuario);
+        if (!response.IsSuccess)
+        {
+            return NotFound("Usuário não encontrado.");
+        }
+
+        return Ok(response.Value); 
+    }
 
 
 }
