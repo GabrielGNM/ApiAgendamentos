@@ -9,15 +9,16 @@ public sealed record UsuarioModel
 {
     [Key]
     [JsonPropertyName("id")]
-    public long? Id { get; set; }
+    public long Id { get; set; }
 
     [Required]
     [JsonPropertyName("nomeUsuario")]
     public string? NomeUsuario { get; set; }
 
     [Required]
+    [JsonIgnore]
     [JsonPropertyName("password")]
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
     [Required]
     [JsonPropertyName("email")]

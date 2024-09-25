@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using BCrypt.Net;
+using Domain;
 using Domain.Interfaces.Repositorys;
 using Domain.Models;
 using Infrastructure.Context;

@@ -1,4 +1,5 @@
-﻿using Azure;
+﻿using BCrypt.Net;
+using Azure;
 using Domain;
 using Domain.Interfaces.Repositorys;
 using Domain.Interfaces.Services;
