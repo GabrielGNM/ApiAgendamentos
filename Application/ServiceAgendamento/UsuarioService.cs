@@ -117,27 +117,6 @@ public class UsuarioService : IUsuarioService
     }
 
 
-    public string GenerateJwtToken(UsuarioModel credenciais)
-    {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ");
-        var claims = new ClaimsIdentity(new Claim[]
-        {
-                new Claim(ClaimTypes.NameIdentifier, credenciais.Id.ToString()),
-                new Claim(ClaimTypes.Role, credenciais.Perfil.ToString())
-        });
-
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = claims,
-            Expires = DateTime.UtcNow.AddHours(8),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-            SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
-    }
-
 
 }
 

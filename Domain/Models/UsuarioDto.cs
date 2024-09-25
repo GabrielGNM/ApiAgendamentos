@@ -15,7 +15,8 @@ public sealed record UsuarioDto
 
     public string? Password { get; set; }
 
-
+    
+    [EmailAddress(ErrorMessage = "O e-mail não é válido.")]
     public string? Email { get; set; }
 
     public string? Telefone { get; set; }

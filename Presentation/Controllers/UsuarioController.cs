@@ -22,13 +22,19 @@ public class UsuarioController : ControllerBase
 
 
    private readonly IUsuarioService _usuarioService;
-   public UsuarioController(IUsuarioService usuarioService)
+
+   private readonly ITokenService _tokenService;
+
+    public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService)
    {
        _usuarioService = usuarioService;
-   }
+       _tokenService = tokenService;
+    }
 
 
-   [HttpGet]
+
+
+    [HttpGet]
    public async Task<IActionResult> BuscarTodosUsuariosAsync()
    {
         var response = await _usuarioService.BuscarTodosUsuariosAsync();
@@ -123,7 +129,7 @@ public class UsuarioController : ControllerBase
             return Unauthorized();
         }    
         
-        var jwt = _usuarioService.GenerateJwtToken(response.Value);
+        var jwt = _tokenService.GenerateJwtToken(response.Value);
 
         return Ok(new { jwtToken = jwt });
     }

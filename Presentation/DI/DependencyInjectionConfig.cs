@@ -12,6 +12,7 @@ public static class DependencyInjectionConfig
         // Registro de Serviços
         services.AddScoped<IAgendamentoService, AgendamentoService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
+        services.AddScoped<ITokenService, TokenService>();
 
         // Registro de Repositórios
         services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
