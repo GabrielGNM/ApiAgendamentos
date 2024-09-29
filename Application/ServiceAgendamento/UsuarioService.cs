@@ -116,8 +116,10 @@ public class UsuarioService : IUsuarioService
         return ValueResult< UsuarioModel>.Success(responseModel.Value);
     }
 
-
-
+    public string GenerateJwtToken(UsuarioModel credenciais)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 

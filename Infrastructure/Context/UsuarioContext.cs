@@ -1,17 +1,16 @@
 ﻿using Domain.Models;
-using Domain.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Context;
 
-public class AgendamentoContext : DbContext
+public class UsuariosContext : DbContext
 {
     private readonly string _connectionString;
-    public DbSet<AgendamentoModel> Agendamentos { get; set; }
+    public DbSet<UsuarioModel> Usuarios { get; set; }
 
 
-    public AgendamentoContext(IConfiguration configuration)
+    public UsuariosContext(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("Agendamentos");
     }

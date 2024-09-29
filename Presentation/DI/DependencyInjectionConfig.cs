@@ -19,6 +19,8 @@ public static class DependencyInjectionConfig
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
         services.AddDbContext<AgendamentoContext>();
+        services.AddDbContext<UsuariosContext>();
+
 
         return services;
     }

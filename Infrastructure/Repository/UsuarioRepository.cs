@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class UsuarioRepository(AgendamentoContext context) : IUsuarioRepository
+public class UsuarioRepository(UsuariosContext context) : IUsuarioRepository
 {
-    private readonly AgendamentoContext _context = context;
+    private readonly UsuariosContext _context = context;
     
     public async Task<ValueResult<List<UsuarioModel>>> BuscarTodosUsuariosAsync()
     {
