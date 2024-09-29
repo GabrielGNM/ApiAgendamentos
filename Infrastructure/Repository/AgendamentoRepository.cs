@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Domain.Interfaces.Repositorys;
-using Domain.Models;
+using Domain.Models.Repository;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace Domain.Models;
+namespace Domain.Models.Repository;
 
 public sealed record AgendamentoModel
 {
@@ -14,9 +15,11 @@ public sealed record AgendamentoModel
     public DateTime DataAtendimento { get; set; }
 
     [JsonPropertyName("email")]
+    [EmailAddress]
     public string? Email { get; set; }
 
     [JsonPropertyName("emailMedicoResponsavel")]
+    [EmailAddress]
     public string? EmailMedicoResponsavel { get; set; }
 
 }

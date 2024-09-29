@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Controller\Responses\" />
-    <Folder Include="Models\Controller\Requests\" />
   </ItemGroup>
 
   <ItemGroup>
