@@ -136,10 +136,7 @@ public class UsuarioController : ControllerBase
             User = nomeUsuario,
             Email = email
         });
-
-
-      
-
+           
     }
     
 
@@ -157,11 +154,19 @@ public class UsuarioController : ControllerBase
         
         var jwt = _tokenService.GenerateJwtToken(response.Value);
 
-        return Ok(new { jwtToken = jwt });
+        return Ok(new { jwtToken = jwt, user = new
+        {
+            id = response.Value.Id,
+            user = response.Value.NomeUsuario,
+            email = response.Value.Email
+        }
+
+        });
+
     }
 
 
-    
+
 
 
 
