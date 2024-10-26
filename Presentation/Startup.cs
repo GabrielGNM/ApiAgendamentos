@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
 
 namespace Presentation;
 public class Startup
@@ -33,7 +34,10 @@ public class Startup
             {
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ"))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Ry74cBQva5dThwbwchR9jhbtRFnJxWSZ")),
+                ValidateLifetime = true,
+                RoleClaimType = ClaimTypes.Role,
+                NameClaimType = ClaimTypes.Name,
             };
         });
 

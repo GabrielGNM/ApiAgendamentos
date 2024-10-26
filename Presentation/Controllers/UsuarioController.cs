@@ -117,6 +117,33 @@ public class UsuarioController : ControllerBase
     }
 
 
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetUsuarioAutenticado()
+    {
+        var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var nomeUsuario = User.FindFirstValue(ClaimTypes.Name);
+        var email = User.FindFirstValue(ClaimTypes.Email);
+
+        if (id ==null || nomeUsuario == null || email == null)
+        {
+            return BadRequest("Claims não encontrados no token JWT");
+        }
+
+        return Ok(new
+        {
+            Id = id,
+            User = nomeUsuario,
+            Email = email
+        });
+
+
+      
+
+    }
+    
+
+
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public async Task<IActionResult> Authenticate(AuthenticateDto credenciais)

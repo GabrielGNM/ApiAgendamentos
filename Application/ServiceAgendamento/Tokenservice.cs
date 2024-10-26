@@ -25,8 +25,11 @@ public class TokenService : ITokenService
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_configurationToken["tokenJWT"]);
-        var claims = new[] {
+        var claims = new[] 
+        {
             new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new Claim(ClaimTypes.Name, usuario.NomeUsuario.ToString()),
+            new Claim(ClaimTypes.Email, usuario.Email.ToString()),
             new Claim(ClaimTypes.Role, usuario.Perfil.ToString())
         };
 
