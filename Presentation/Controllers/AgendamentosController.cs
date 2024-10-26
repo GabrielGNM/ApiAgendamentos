@@ -29,7 +29,7 @@ public class AgendamentosController(IAgendamentoService agendamentoService) : Co
             return StatusCode(StatusCodes.Status503ServiceUnavailable, response.ErrorMessage);
         }
 
-        return Ok(response);
+        return Ok(response.Value);
     }
 
     [HttpGet("{id:long}")]
@@ -49,7 +49,7 @@ public class AgendamentosController(IAgendamentoService agendamentoService) : Co
             return StatusCode(StatusCodes.Status503ServiceUnavailable, response.ErrorMessage);
         }
 
-        return Ok(response);
+        return Ok(response.Value);
     }
 
     [HttpGet("BuscarPorMedico/{email}")]
@@ -73,7 +73,7 @@ public class AgendamentosController(IAgendamentoService agendamentoService) : Co
             return BadRequest(response.ErrorMessage);
         }
 
-        return Ok(response);
+        return Ok(response.Value);
     }
     
     [HttpGet("BuscarPorPaciente/{email}")]
@@ -98,7 +98,7 @@ public class AgendamentosController(IAgendamentoService agendamentoService) : Co
             return BadRequest(response.ErrorMessage);
         }
 
-        return Ok(response);
+        return Ok(response.Value);
     }
 
     [HttpPost]

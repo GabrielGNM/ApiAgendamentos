@@ -33,7 +33,7 @@ public class UsuarioController : ControllerBase
 
 
 
-
+    [AllowAnonymous]
     [HttpGet]
    public async Task<IActionResult> BuscarTodosUsuariosAsync()
    {
@@ -58,9 +58,9 @@ public class UsuarioController : ControllerBase
         return CreatedAtAction(nameof(AdicionarUsuario), new { id = response.Value.Id }, response.Value);
     }
 
-  
 
-   [HttpGet("{id}")]
+    [AllowAnonymous]
+    [HttpGet("{id}")]
    public async Task<IActionResult> BuscarUsuarioPorId(int id)
    {
        var response = await _usuarioService.BuscarUsuarioPorIdAsync(id);
@@ -76,10 +76,9 @@ public class UsuarioController : ControllerBase
        return Ok(response.Value);
    }
 
- 
 
-
-   [HttpPut("{id}")]
+    [AllowAnonymous]
+    [HttpPut("{id}")]
    public async Task<IActionResult> AtualizarUsuario(long id, UsuarioDto usuario)
    {
        
@@ -105,8 +104,8 @@ public class UsuarioController : ControllerBase
    }
 
 
-
-   [HttpDelete("{id}")]
+    [AllowAnonymous]
+    [HttpDelete("{id}")]
    public async Task<IActionResult> Delete(int id)
    {
         var response = await _usuarioService.ApagarUsuarioAsync(id);

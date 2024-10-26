@@ -10,7 +10,7 @@ namespace Domain.Models;
 public sealed record AuthenticateDto
 {
     [Required]
-    public long Id { get; set; }
+    public long Email { get; set; }
 
     [Required]
     public string Password { get; set; }

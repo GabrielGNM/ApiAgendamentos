@@ -18,4 +18,13 @@ public class UsuariosContext : DbContext
     {
         optionsBuilder.UseSqlServer(_connectionString);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<UsuarioModel>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+    }
 }

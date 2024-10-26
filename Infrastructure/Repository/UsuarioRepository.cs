@@ -72,26 +72,53 @@ public class UsuarioRepository(UsuariosContext context) : IUsuarioRepository
         }
     }
 
-    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioDto Usuario)
+    public async Task<ValueResult<UsuarioModel>> BuscarUsuarioPorEmailAsync(string email)
     {
-        UsuarioModel novoUsuario = new UsuarioModel()
-        {
-            NomeUsuario = Usuario.NomeUsuario,
-            Password = BCrypt.Net.BCrypt.HashPassword(Usuario.Password),
-            Email = Usuario.Email,
-            Telefone = Usuario.Telefone,
-            Tipo = Usuario.Tipo
-        };
-
         try
         {
-            await _context.Usuarios.AddAsync(novoUsuario);
-            await _context.SaveChangesAsync();
-            return ValueResult<UsuarioModel>.Success(novoUsuario);
+            return ValueResult<UsuarioModel>.Success(
+                await _context.Usuarios
+                .Where(x => x.Email == email)
+                .FirstOrDefaultAsync());
         }
         catch
         {
             return ValueResult<UsuarioModel>.Failure("Falha ao acessar base de dados");
+        }
+    }
+
+    public async Task<ValueResult<UsuarioModel>> AdicionarUsuarioAsync(UsuarioDto Usuario)
+    {
+
+        try
+        {
+            var emailExistente = await _context.Usuarios
+                .AnyAsync(u => u.Email == Usuario.Email);
+
+            if (emailExistente)
+            {
+                return ValueResult<UsuarioModel>.Failure("Email já cadastrado");
+            }
+
+
+
+            UsuarioModel novoUsuario = new UsuarioModel()
+            {
+                NomeUsuario = Usuario.NomeUsuario,
+                Password = BCrypt.Net.BCrypt.HashPassword(Usuario.Password),
+                Email = Usuario.Email,
+                Telefone = Usuario.Telefone,
+                Tipo = Usuario.Tipo
+            };
+
+
+            await _context.Usuarios.AddAsync(novoUsuario);
+            await _context.SaveChangesAsync();
+            return ValueResult<UsuarioModel>.Success(novoUsuario);
+        }
+        catch (Exception ex) 
+        {
+            return ValueResult<UsuarioModel>.Failure("Falha ao acessar base de dados: { ex.Message}");
         }
     }
 

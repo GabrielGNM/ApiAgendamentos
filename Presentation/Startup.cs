@@ -38,6 +38,16 @@ public class Startup
         });
 
 
+        // Configuração do CORS
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins",
+                builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+        });
+
         services.AddSwaggerGen(); 
     }
 
@@ -47,6 +57,9 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
+
+        // Habilitar o CORS
+        app.UseCors("AllowAllOrigins");
 
         app.UseRouting();
 
