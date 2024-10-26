@@ -26,5 +26,10 @@ public class UsuariosContext : DbContext
         modelBuilder.Entity<UsuarioModel>()
             .HasIndex(u => u.Email)
             .IsUnique();
+
+        // Definindo o tipo e tamanho da coluna Email explicitamente
+        modelBuilder.Entity<UsuarioModel>()
+            .Property(u => u.Email)
+            .HasColumnType("nvarchar(256)");
     }
 }

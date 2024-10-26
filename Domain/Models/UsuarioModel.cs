@@ -22,8 +22,9 @@ public sealed record UsuarioModel
     public string? Password { get; set; }
 
     [Required]
+    [MaxLength(256)]
     [JsonPropertyName("email")]
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
     [Required]
     [JsonPropertyName("telefone")]

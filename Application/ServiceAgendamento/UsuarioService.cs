@@ -101,7 +101,7 @@ public class UsuarioService : IUsuarioService
 
     public async Task<ValueResult<UsuarioModel>> AutenticarUsuarioAsync(AuthenticateDto credenciais)
     {
-        var responseModel = await _repositoryUsuario.BuscarUsuarioPorIdAsync(credenciais.Email);
+        var responseModel = await _repositoryUsuario.BuscarUsuarioPorEmailAsync(credenciais.Email);
 
         if (!responseModel.IsSuccess || responseModel.Value == null)
         {
